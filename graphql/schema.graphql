@@ -25,11 +25,15 @@ scalar Date
 
 type Mutation {
   createBank(name: String!): Bank!
+  createCategory(value: String!): Category!
+  createTag(value: String!): Tag!
 }
 
 type Query {
   bank(name: String): Bank
   banks: [Bank]
+  categories: [Category]
+  tags: [Tag]
 }
 
 type Tag {
