@@ -1,6 +1,5 @@
 import { ApolloServer } from "apollo-server-micro";
-import { typeDefs } from "../../graphql/schemas";
-import { resolvers } from "../../graphql/resolvers";
+import { schema } from "../../graphql/schema";
 import {
   ApolloServerPluginLandingPageGraphQLPlayground,
   ApolloServerPluginLandingPageDisabled,
@@ -8,8 +7,7 @@ import {
 import { createContext } from "../../graphql/context";
 
 const apolloServer = new ApolloServer({
-  typeDefs,
-  resolvers,
+  schema,
   plugins: [
     process.env.NODE_ENV === "production"
       ? ApolloServerPluginLandingPageDisabled()
