@@ -5,11 +5,8 @@ export const resolvers = {
     getBanks: async (root, args, { prisma }: Context) => {
       return await prisma.bank.findMany();
     },
-    getBank: (_, { name }) => {
-      return {
-        id: 1,
-        name,
-      };
+    getBank: async (_, { name }: { name: string }, { prisma }: Context) => {
+      return await prisma.bank.findUnique({ where: { name } });
     },
   },
 };
