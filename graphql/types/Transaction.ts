@@ -12,6 +12,7 @@ export const Transaction = objectType({
     t.string("category");
     t.nonNull.float("amount");
     t.field("type", { type: TransactionType });
+    t.date("date");
     t.nonNull.field("account", {
       type: Account,
       async resolve(_parent, _args, ctx: Context) {

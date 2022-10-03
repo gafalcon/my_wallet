@@ -20,6 +20,9 @@ type Category {
   value: String!
 }
 
+"""Date custom scalar type"""
+scalar Date
+
 type Mutation {
   createBank(name: String!): Bank!
 }
@@ -38,6 +41,7 @@ type Transaction {
   account: Account!
   amount: Float!
   category: String
+  date: Date
   description: String
   id: Int
   tags: [Tag]!
