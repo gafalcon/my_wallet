@@ -49,4 +49,18 @@ model Transaction {
   account       Account   @relation(fields: [accountId], references: [id])
   accountId     Int
   tags          Tag[]     
+  category      Category  @relation(fields: [categoryId], references: [id])
+  categoryId    Int
+  type          TransactionType
+}
+
+enum TransactionType {
+  DEBIT
+  PROFIT
+}
+
+model Category {
+  id            Int       @id @default(autoincrement())
+  value         String    @unique
+  transactions  Transaction[]
 }

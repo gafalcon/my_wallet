@@ -5,6 +5,7 @@ import {
   ApolloServerPluginLandingPageDisabled,
 } from "apollo-server-core";
 import { createContext } from "../../graphql/context";
+import type { NextApiRequest, NextApiResponse } from "next";
 
 const apolloServer = new ApolloServer({
   schema,
@@ -24,7 +25,10 @@ export const config = {
   },
 };
 
-export default async function handler(req, res) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   await startServer;
   await apolloServer.createHandler({ path: "/api/graphql" })(req, res);
 }

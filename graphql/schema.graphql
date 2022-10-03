@@ -15,8 +15,18 @@ type Bank {
   name: String
 }
 
+type Category {
+  id: Int
+  value: String!
+}
+
+type Mutation {
+  createBank(name: String!): Bank!
+}
+
 type Query {
-  ok: Boolean!
+  bank(name: String): Bank
+  banks: [Bank]
 }
 
 type Tag {
@@ -27,10 +37,17 @@ type Tag {
 type Transaction {
   account: Account!
   amount: Float!
+  category: String
   description: String
   id: Int
   tags: [Tag]!
+  type: TransactionType
   user: User!
+}
+
+enum TransactionType {
+  DEBIT
+  PROFIT
 }
 
 type User {

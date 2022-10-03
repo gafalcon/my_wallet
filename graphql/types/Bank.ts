@@ -1,9 +1,54 @@
-import { objectType, extendType } from "nexus";
+import { objectType, extendType, stringArg, nonNull } from "nexus";
+import { Context } from "../context";
 
 export const Bank = objectType({
   name: "Bank",
   definition(t) {
     t.int("id");
     t.string("name");
+  },
+});
+
+export const BanksQuery = extendType({
+  type: "Query",
+  definition(t) {
+    t.list.field("banks", {
+      type: "Bank",
+      async resolve(_, _args, ctx: Context) {
+        return await ctx.prisma.bank.findMany();
+      },
+    });
+  },
+});
+
+export const BankQuery = extendType({
+  type: "Query",
+  definition(t) {
+    t.field("bank", {
+      type: "Bank",
+      args: {
+        name: stringArg(),
+      },
+      async resolve(_, args, ctx: Context) {
+        return await ctx.prisma.bank.findUnique({ where: { name: args.name } });
+      },
+    });
+  },
+});
+
+export const CreateLinkMutation = extendType({
+  type: "Mutation",
+  definition(t) {
+    t.nonNull.field("createBank", {
+      type: Bank,
+      args: {
+        name: nonNull(stringArg()),
+      },
+      async resolve(_parent, args, ctx) {
+        return await ctx.prisma.bank.create({
+          data: { name: args.name },
+        });
+      },
+    });
   },
 });

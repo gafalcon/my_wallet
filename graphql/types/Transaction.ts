@@ -1,4 +1,4 @@
-import { objectType } from "nexus";
+import { objectType, enumType } from "nexus";
 import { Tag } from "./Tag";
 import { Context } from "../context";
 import { User } from "./User";
@@ -9,7 +9,9 @@ export const Transaction = objectType({
   definition(t) {
     t.int("id");
     t.string("description");
+    t.string("category");
     t.nonNull.float("amount");
+    t.field("type", { type: TransactionType });
     t.nonNull.field("account", {
       type: Account,
       async resolve(_parent, _args, ctx: Context) {
@@ -37,4 +39,9 @@ export const Transaction = objectType({
       },
     });
   },
+});
+
+const TransactionType = enumType({
+  name: "TransactionType",
+  members: ["DEBIT", "PROFIT"],
 });
