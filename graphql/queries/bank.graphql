@@ -1,0 +1,6 @@
+query GetBank($name: String!) {
+  bank(name: $name) {
+    name
+    id
+  }
+}

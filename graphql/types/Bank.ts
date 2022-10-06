@@ -45,6 +45,9 @@ export const CreateLinkMutation = extendType({
         name: nonNull(stringArg()),
       },
       async resolve(_parent, args, ctx) {
+        const userId = ctx.user[`${process.env.AUTH0_BASE_URL}/userId`];
+        console.log(userId);
+        console.log(ctx.user);
         return await ctx.prisma.bank.create({
           data: { name: args.name },
         });

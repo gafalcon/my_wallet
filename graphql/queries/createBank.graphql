@@ -1,0 +1,6 @@
+mutation createBank($name: String!){
+  createBank(name: $name) {
+    id,
+    name
+  }
+}

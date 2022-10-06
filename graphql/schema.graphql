@@ -24,6 +24,7 @@ type Category {
 scalar Date
 
 type Mutation {
+  createAccount(bankId: Int!, name: String!, total_amount: Float): Account!
   createBank(name: String!): Bank!
   createCategory(value: String!): Category!
   createTag(value: String!): Tag!

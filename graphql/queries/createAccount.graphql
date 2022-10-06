@@ -1,0 +1,6 @@
+mutation createAccount($name:String!, $total_amount:Float, $bankId:Int!){
+  createAccount(name:$name, bankId:$bankId, total_amount: $total_amount){
+    id,
+    name
+  }
+}

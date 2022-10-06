@@ -1,6 +1,0 @@
-query test {
-  getBank(name: "hola") {
-    name
-    id
-  }
-}

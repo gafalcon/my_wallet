@@ -1,4 +1,5 @@
 {
+  "schemaPath": "graphql/schema.graphql",
   "extensions": {
     "endpoints": {
       "dev": {
