@@ -16,7 +16,7 @@ type Bank {
 }
 
 type Category {
-  id: Int
+  id: Int!
   value: String!
 }
 
@@ -32,7 +32,7 @@ type Mutation {
 type Query {
   bank(name: String): Bank
   banks: [Bank]
-  categories: [Category]
+  categories: [Category]!
   tags: [Tag]
 }
 

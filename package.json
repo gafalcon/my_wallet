@@ -6,9 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "codegen": "graphql-codegen -w --config codegen.yaml"
   },
   "dependencies": {
+    "@apollo/client": "^3.7.0",
     "@auth0/nextjs-auth0": "^1.9.1",
     "@prisma/client": "4.4.0",
     "apollo-server-micro": "^3.10.2",
@@ -20,6 +22,9 @@
     "react-dom": "18.2.0"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "2.13.4",
+    "@graphql-codegen/client-preset": "1.0.3",
+    "@graphql-codegen/typescript-react-apollo": "^3.3.3",
     "@types/node": "18.7.23",
     "@types/react": "18.0.21",
     "@types/react-dom": "18.0.6",
