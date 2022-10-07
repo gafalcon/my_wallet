@@ -1,0 +1,11 @@
+query getAccounts {
+  accounts {
+    id,
+    name,
+    total_amount,
+    bank {
+      id
+      name
+    }
+  }
+}

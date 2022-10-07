@@ -41,6 +41,18 @@ export const Account = objectType({
   },
 });
 
+export const AccountsQuery = extendType({
+  type: "Query",
+  definition(t) {
+    t.nonNull.list.nonNull.field("accounts", {
+      type: "Account",
+      async resolve(_, _args, ctx: Context) {
+        return await ctx.prisma.account.findMany();
+      },
+    });
+  },
+});
+
 export const CreateAccountMutation = extendType({
   type: "Mutation",
   definition(t) {

@@ -12,7 +12,7 @@ export const Bank = objectType({
 export const BanksQuery = extendType({
   type: "Query",
   definition(t) {
-    t.list.field("banks", {
+    t.nonNull.list.nonNull.field("banks", {
       type: "Bank",
       async resolve(_, _args, ctx: Context) {
         return await ctx.prisma.bank.findMany();

@@ -31,8 +31,9 @@ type Mutation {
 }
 
 type Query {
+  accounts: [Account!]!
   bank(name: String): Bank
-  banks: [Bank]
+  banks: [Bank!]!
   categories: [Category]!
   tags: [Tag]
 }

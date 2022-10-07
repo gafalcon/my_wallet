@@ -1,10 +1,11 @@
+import { Button } from "../design/Button";
+import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
+import * as Yup from "yup";
+import { useRouter } from "next/router";
 import {
   useGetBanksQuery,
   useCreateAccountMutation,
 } from "../../graphql/client-types";
-import { Button } from "../design/Button";
-import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
-import * as Yup from "yup";
 
 interface FormValues {
   name: string;
@@ -13,6 +14,7 @@ interface FormValues {
 }
 
 export const AccountForm = () => {
+  const router = useRouter();
   const { data } = useGetBanksQuery();
   const [createAccount] = useCreateAccountMutation();
 
@@ -36,6 +38,7 @@ export const AccountForm = () => {
     const result = await createAccount({ variables });
     console.log(result.data);
     setSubmitting(false);
+    router.push("/account");
   };
 
   return (
@@ -62,8 +65,8 @@ export const AccountForm = () => {
           <Field as="select" id="" name="bankId">
             <option value={0}>Select Bank</option>
             {banks.map((bank) => (
-              <option key={bank!.id} value={bank!.id}>
-                {bank!.name}
+              <option key={bank.id} value={bank.id}>
+                {bank.name}
               </option>
             ))}
           </Field>

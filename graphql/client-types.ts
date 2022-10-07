@@ -70,8 +70,9 @@ export type MutationCreateTagArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  accounts: Array<Account>;
   bank?: Maybe<Bank>;
-  banks?: Maybe<Array<Maybe<Bank>>>;
+  banks: Array<Bank>;
   categories: Array<Maybe<Category>>;
   tags?: Maybe<Array<Maybe<Tag>>>;
 };
@@ -112,6 +113,11 @@ export type User = {
   total_amount?: Maybe<Scalars['Float']>;
 };
 
+export type GetAccountsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAccountsQuery = { __typename?: 'Query', accounts: Array<{ __typename?: 'Account', id?: number | null, name: string, total_amount: number, bank: { __typename?: 'Bank', id: number, name: string } }> };
+
 export type GetBankQueryVariables = Exact<{
   name: Scalars['String'];
 }>;
@@ -122,7 +128,7 @@ export type GetBankQuery = { __typename?: 'Query', bank?: { __typename?: 'Bank',
 export type GetBanksQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetBanksQuery = { __typename?: 'Query', banks?: Array<{ __typename?: 'Bank', id: number, name: string } | null> | null };
+export type GetBanksQuery = { __typename?: 'Query', banks: Array<{ __typename?: 'Bank', id: number, name: string }> };
 
 export type GetCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -146,6 +152,46 @@ export type CreateBankMutationVariables = Exact<{
 export type CreateBankMutation = { __typename?: 'Mutation', createBank: { __typename?: 'Bank', id: number, name: string } };
 
 
+export const GetAccountsDocument = gql`
+    query getAccounts {
+  accounts {
+    id
+    name
+    total_amount
+    bank {
+      id
+      name
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetAccountsQuery__
+ *
+ * To run a query within a React component, call `useGetAccountsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAccountsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAccountsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetAccountsQuery(baseOptions?: Apollo.QueryHookOptions<GetAccountsQuery, GetAccountsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAccountsQuery, GetAccountsQueryVariables>(GetAccountsDocument, options);
+      }
+export function useGetAccountsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAccountsQuery, GetAccountsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAccountsQuery, GetAccountsQueryVariables>(GetAccountsDocument, options);
+        }
+export type GetAccountsQueryHookResult = ReturnType<typeof useGetAccountsQuery>;
+export type GetAccountsLazyQueryHookResult = ReturnType<typeof useGetAccountsLazyQuery>;
+export type GetAccountsQueryResult = Apollo.QueryResult<GetAccountsQuery, GetAccountsQueryVariables>;
 export const GetBankDocument = gql`
     query GetBank($name: String!) {
   bank(name: $name) {
