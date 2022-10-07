@@ -28,8 +28,8 @@ export type Account = {
 
 export type Bank = {
   __typename?: 'Bank';
-  id?: Maybe<Scalars['Int']>;
-  name?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  name: Scalars['String'];
 };
 
 export type Category = {
@@ -117,12 +117,12 @@ export type GetBankQueryVariables = Exact<{
 }>;
 
 
-export type GetBankQuery = { __typename?: 'Query', bank?: { __typename?: 'Bank', name?: string | null, id?: number | null } | null };
+export type GetBankQuery = { __typename?: 'Query', bank?: { __typename?: 'Bank', name: string, id: number } | null };
 
 export type GetBanksQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetBanksQuery = { __typename?: 'Query', banks?: Array<{ __typename?: 'Bank', name?: string | null } | null> | null };
+export type GetBanksQuery = { __typename?: 'Query', banks?: Array<{ __typename?: 'Bank', id: number, name: string } | null> | null };
 
 export type GetCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -143,7 +143,7 @@ export type CreateBankMutationVariables = Exact<{
 }>;
 
 
-export type CreateBankMutation = { __typename?: 'Mutation', createBank: { __typename?: 'Bank', id?: number | null, name?: string | null } };
+export type CreateBankMutation = { __typename?: 'Mutation', createBank: { __typename?: 'Bank', id: number, name: string } };
 
 
 export const GetBankDocument = gql`
@@ -185,6 +185,7 @@ export type GetBankQueryResult = Apollo.QueryResult<GetBankQuery, GetBankQueryVa
 export const GetBanksDocument = gql`
     query GetBanks {
   banks {
+    id
     name
   }
 }

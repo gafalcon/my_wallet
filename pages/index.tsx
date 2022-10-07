@@ -1,5 +1,7 @@
 import type { NextPage } from "next";
 import { useState } from "react";
+import { Button } from "../components/design/Button";
+import { AccountForm } from "../components/account/AccountForm";
 import {
   useGetCategoriesQuery,
   useCreateBankMutation,
@@ -24,7 +26,7 @@ const Home: NextPage = () => {
   };
   return (
     <div>
-      <h1 className="text-3xl font-bold underline">My Wallet App</h1>
+      <h1 className="text-3xl font-bold">My Wallet App</h1>
       <ul>
         {data?.categories.map((category, i) => (
           <li key={i}>{category?.value}</li>
@@ -32,7 +34,10 @@ const Home: NextPage = () => {
       </ul>
 
       <input name="name" type="text" value={bankName} onChange={onChange} />
-      <button onClick={onClick}>Create Bank</button>
+
+      <Button onClick={onClick}>Create Bank</Button>
+
+      <br />
     </div>
   );
 };

@@ -11,8 +11,8 @@ type Account {
 }
 
 type Bank {
-  id: Int
-  name: String
+  id: Int!
+  name: String!
 }
 
 type Category {

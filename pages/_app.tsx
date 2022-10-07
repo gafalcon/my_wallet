@@ -10,7 +10,9 @@ function MyApp({ Component, pageProps }: AppProps) {
     <ApolloProvider client={apolloClient}>
       <UserProvider>
         <TopBar />
-        <Component {...pageProps} />
+        <main className="container mx-auto">
+          <Component {...pageProps} />
+        </main>
       </UserProvider>
     </ApolloProvider>
   );

@@ -4,8 +4,8 @@ import { Context } from "../context";
 export const Bank = objectType({
   name: "Bank",
   definition(t) {
-    t.int("id");
-    t.string("name");
+    t.nonNull.int("id");
+    t.nonNull.string("name");
   },
 });
 
