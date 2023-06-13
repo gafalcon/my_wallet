@@ -27,7 +27,7 @@ export const BankQuery = extendType({
     t.field("bank", {
       type: "Bank",
       args: {
-        name: stringArg(),
+        name: nonNull(stringArg()),
       },
       async resolve(_, args, ctx: Context) {
         return await ctx.prisma.bank.findUnique({ where: { name: args.name } });
@@ -45,9 +45,13 @@ export const CreateLinkMutation = extendType({
         name: nonNull(stringArg()),
       },
       async resolve(_parent, args, ctx) {
+        if (!ctx.user) {
+          throw new Error(`You need to be logged in to perform an action`);
+        }
         const userId = ctx.user[`${process.env.AUTH0_BASE_URL}/userId`];
-        console.log(userId);
-        console.log(ctx.user);
+        if (typeof userId !== "number") {
+          throw new Error(`You need to be logged in to perform an action`);
+        }
         return await ctx.prisma.bank.create({
           data: { name: args.name },
         });

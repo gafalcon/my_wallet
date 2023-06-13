@@ -45,8 +45,16 @@ export const AccountsQuery = extendType({
   type: "Query",
   definition(t) {
     t.nonNull.list.nonNull.field("accounts", {
-      type: "Account",
-      async resolve(_, _args, ctx: Context) {
+      type: Account,
+      args: {
+        bankId: intArg(),
+      },
+      async resolve(_, args, ctx: Context) {
+        if (args.bankId) {
+          return await ctx.prisma.account.findMany({
+            where: { bankId: args.bankId },
+          });
+        }
         return await ctx.prisma.account.findMany();
       },
     });
