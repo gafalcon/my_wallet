@@ -61,8 +61,23 @@ export const TransactionsQuery = extendType({
   definition(t) {
     t.nonNull.list.nonNull.field("transactions", {
       type: "Transaction",
-      async resolve(_, _args, ctx: Context) {
-        return await ctx.prisma.account.findMany();
+      args: {
+        accountId: intArg(),
+        type: arg({ type: TransactionType }),
+        categoryId: intArg(),
+      },
+      async resolve(_, args, ctx: Context) {
+        const where: any = {};
+        if (args.type) {
+          where.type = { equals: args.type };
+        }
+        if (args.categoryId) {
+          where.categoryId = args.categoryId;
+        }
+        if (args.accountId) {
+          where.accountId = args.accountId;
+        }
+        return await ctx.prisma.transaction.findMany({ where });
       },
     });
   },

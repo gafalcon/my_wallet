@@ -32,12 +32,13 @@ type Mutation {
 }
 
 type Query {
+  account(id: Int!): Account
   accounts(bankId: Int): [Account!]!
   bank(name: String!): Bank
   banks: [Bank!]!
   categories: [Category]!
   tags: [Tag]
-  transactions: [Transaction!]!
+  transactions(accountId: Int, categoryId: Int, type: TransactionType): [Transaction!]!
 }
 
 type Tag {

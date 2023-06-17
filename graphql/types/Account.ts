@@ -5,6 +5,7 @@ import {
   stringArg,
   intArg,
   floatArg,
+  idArg,
 } from "nexus";
 import { Bank } from "./Bank";
 import { Context } from "../context";
@@ -56,6 +57,23 @@ export const AccountsQuery = extendType({
           });
         }
         return await ctx.prisma.account.findMany();
+      },
+    });
+  },
+});
+
+export const AccountQuery = extendType({
+  type: "Query",
+  definition(t) {
+    t.field("account", {
+      type: Account,
+      args: {
+        id: nonNull(intArg()),
+      },
+      async resolve(_, args, ctx: Context) {
+        return await ctx.prisma.account.findUnique({
+          where: { id: args.id },
+        });
       },
     });
   },
