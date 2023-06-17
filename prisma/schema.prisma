@@ -49,8 +49,8 @@ model Transaction {
   account       Account   @relation(fields: [accountId], references: [id])
   accountId     Int
   tags          Tag[]     
-  category      Category  @relation(fields: [categoryId], references: [id])
-  categoryId    Int
+  category      Category?  @relation(fields: [categoryId], references: [id])
+  categoryId    Int?
   type          TransactionType
 }
 

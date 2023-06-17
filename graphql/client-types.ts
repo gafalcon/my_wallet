@@ -44,6 +44,7 @@ export type Mutation = {
   createBank: Bank;
   createCategory: Category;
   createTag: Tag;
+  createTransaction: Transaction;
 };
 
 
@@ -68,6 +69,15 @@ export type MutationCreateTagArgs = {
   value: Scalars['String'];
 };
 
+
+export type MutationCreateTransactionArgs = {
+  accountId: Scalars['Int'];
+  amount: Scalars['Float'];
+  category?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
+  type: TransactionType;
+};
+
 export type Query = {
   __typename?: 'Query';
   accounts: Array<Account>;
@@ -75,11 +85,17 @@ export type Query = {
   banks: Array<Bank>;
   categories: Array<Maybe<Category>>;
   tags?: Maybe<Array<Maybe<Tag>>>;
+  transactions: Array<Transaction>;
+};
+
+
+export type QueryAccountsArgs = {
+  bankId?: InputMaybe<Scalars['Int']>;
 };
 
 
 export type QueryBankArgs = {
-  name?: InputMaybe<Scalars['String']>;
+  name: Scalars['String'];
 };
 
 export type Tag = {
@@ -150,6 +166,15 @@ export type CreateBankMutationVariables = Exact<{
 
 
 export type CreateBankMutation = { __typename?: 'Mutation', createBank: { __typename?: 'Bank', id: number, name: string } };
+
+export type CreateTransactionMutationVariables = Exact<{
+  amount: Scalars['Float'];
+  accountId: Scalars['Int'];
+  type: TransactionType;
+}>;
+
+
+export type CreateTransactionMutation = { __typename?: 'Mutation', createTransaction: { __typename?: 'Transaction', amount: number, date?: any | null, description?: string | null, id?: number | null, type?: TransactionType | null } };
 
 
 export const GetAccountsDocument = gql`
@@ -367,3 +392,42 @@ export function useCreateBankMutation(baseOptions?: Apollo.MutationHookOptions<C
 export type CreateBankMutationHookResult = ReturnType<typeof useCreateBankMutation>;
 export type CreateBankMutationResult = Apollo.MutationResult<CreateBankMutation>;
 export type CreateBankMutationOptions = Apollo.BaseMutationOptions<CreateBankMutation, CreateBankMutationVariables>;
+export const CreateTransactionDocument = gql`
+    mutation createTransaction($amount: Float!, $accountId: Int!, $type: TransactionType!) {
+  createTransaction(amount: $amount, accountId: $accountId, type: $type) {
+    amount
+    date
+    description
+    id
+    type
+  }
+}
+    `;
+export type CreateTransactionMutationFn = Apollo.MutationFunction<CreateTransactionMutation, CreateTransactionMutationVariables>;
+
+/**
+ * __useCreateTransactionMutation__
+ *
+ * To run a mutation, you first call `useCreateTransactionMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateTransactionMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createTransactionMutation, { data, loading, error }] = useCreateTransactionMutation({
+ *   variables: {
+ *      amount: // value for 'amount'
+ *      accountId: // value for 'accountId'
+ *      type: // value for 'type'
+ *   },
+ * });
+ */
+export function useCreateTransactionMutation(baseOptions?: Apollo.MutationHookOptions<CreateTransactionMutation, CreateTransactionMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateTransactionMutation, CreateTransactionMutationVariables>(CreateTransactionDocument, options);
+      }
+export type CreateTransactionMutationHookResult = ReturnType<typeof useCreateTransactionMutation>;
+export type CreateTransactionMutationResult = Apollo.MutationResult<CreateTransactionMutation>;
+export type CreateTransactionMutationOptions = Apollo.BaseMutationOptions<CreateTransactionMutation, CreateTransactionMutationVariables>;

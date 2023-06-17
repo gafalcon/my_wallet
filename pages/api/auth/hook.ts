@@ -2,6 +2,7 @@ import prisma from "../../../lib/prisma";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+  console.log("Auth Handler");
   const { email, name, secret } = req.body;
   // 1
   if (req.method !== "POST") {

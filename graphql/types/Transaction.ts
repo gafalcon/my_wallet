@@ -1,4 +1,13 @@
-import { objectType, enumType } from "nexus";
+import {
+  objectType,
+  enumType,
+  extendType,
+  nonNull,
+  stringArg,
+  intArg,
+  floatArg,
+  arg,
+} from "nexus";
 import { Tag } from "./Tag";
 import { Context } from "../context";
 import { User } from "./User";
@@ -45,4 +54,73 @@ export const Transaction = objectType({
 const TransactionType = enumType({
   name: "TransactionType",
   members: ["DEBIT", "PROFIT"],
+});
+
+export const TransactionsQuery = extendType({
+  type: "Query",
+  definition(t) {
+    t.nonNull.list.nonNull.field("transactions", {
+      type: "Transaction",
+      async resolve(_, _args, ctx: Context) {
+        return await ctx.prisma.account.findMany();
+      },
+    });
+  },
+});
+
+export const CreateTransactionMutation = extendType({
+  type: "Mutation",
+  definition(t) {
+    t.nonNull.field("createTransaction", {
+      type: Transaction,
+      args: {
+        description: stringArg(),
+        category: stringArg(),
+        amount: nonNull(floatArg()),
+        accountId: nonNull(intArg()),
+        type: nonNull(
+          arg({
+            type: TransactionType,
+          })
+        ),
+      },
+      async resolve(_parent, args, ctx) {
+        if (!ctx.user) {
+          throw new Error(`You need to be logged in to perform an action`);
+        }
+        const userId = ctx.user[`${process.env.AUTH0_BASE_URL}/userId`];
+
+        if (typeof userId !== "number") {
+          throw new Error(`You need to be logged in to perform an action`);
+        }
+        const data: any = {
+          description: args.description || "",
+          amount: args.amount,
+          account: { connect: { id: args.accountId } },
+          type: args.type,
+        };
+        if (args.category) {
+          data.category = { connect: { id: args.category } };
+        }
+        const transaction = await ctx.prisma.transaction.create({
+          data,
+        });
+
+        // todo update account value
+        const total_amount =
+          args.type === "DEBIT"
+            ? { decrement: args.amount }
+            : { increment: args.amount };
+        await ctx.prisma.account.update({
+          data: {
+            total_amount,
+          },
+          where: {
+            id: args.accountId,
+          },
+        });
+        return transaction;
+      },
+    });
+  },
 });

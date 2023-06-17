@@ -1,0 +1,9 @@
+mutation createTransaction($amount: Float!, $accountId: Int!, $type: TransactionType!) {
+  createTransaction(amount: $amount, accountId: $accountId, type: $type) {
+    amount
+    date
+    description
+    id
+    type
+  }
+}

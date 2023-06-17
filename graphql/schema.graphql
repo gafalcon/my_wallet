@@ -28,14 +28,16 @@ type Mutation {
   createBank(name: String!): Bank!
   createCategory(value: String!): Category!
   createTag(value: String!): Tag!
+  createTransaction(accountId: Int!, amount: Float!, category: String, description: String, type: TransactionType!): Transaction!
 }
 
 type Query {
-  accounts: [Account!]!
-  bank(name: String): Bank
+  accounts(bankId: Int): [Account!]!
+  bank(name: String!): Bank
   banks: [Bank!]!
   categories: [Category]!
   tags: [Tag]
+  transactions: [Transaction!]!
 }
 
 type Tag {
