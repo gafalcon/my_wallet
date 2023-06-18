@@ -23,7 +23,7 @@ export const Account = objectType({
         return await ctx.prisma.account
           .findUnique({
             where: {
-              id: _parent.id,
+              id: _parent.id!,
             },
           })
           .bank();
@@ -34,7 +34,7 @@ export const Account = objectType({
       async resolve(_parent, _args, ctx: Context) {
         return await ctx.prisma.account
           .findUnique({
-            where: { id: _parent.id },
+            where: { id: _parent.id! },
           })
           .user();
       },

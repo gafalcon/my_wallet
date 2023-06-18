@@ -20,13 +20,22 @@ type Category {
   value: String!
 }
 
+type CategoryCreatePayload {
+  Category: Category
+  errors: [String!]!
+}
+
 """Date custom scalar type"""
 scalar Date
 
+type Errors {
+  message: [String!]!
+}
+
 type Mutation {
+  categoryCreate(value: String!): CategoryCreatePayload!
   createAccount(bankId: Int!, name: String!, total_amount: Float): Account!
   createBank(name: String!): Bank!
-  createCategory(value: String!): Category!
   createTag(value: String!): Tag!
   createTransaction(accountId: Int!, amount: Float!, category: String, description: String, type: TransactionType!): Transaction!
 }
@@ -36,7 +45,7 @@ type Query {
   accounts(bankId: Int): [Account!]!
   bank(name: String!): Bank
   banks: [Bank!]!
-  categories: [Category]!
+  categories: [Category!]!
   tags: [Tag]
   transactions(accountId: Int, categoryId: Int, type: TransactionType): [Transaction!]!
 }
