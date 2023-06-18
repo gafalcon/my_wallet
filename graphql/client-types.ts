@@ -38,13 +38,24 @@ export type Category = {
   value: Scalars['String'];
 };
 
+export type CategoryCreatePayload = {
+  __typename?: 'CategoryCreatePayload';
+  Category?: Maybe<Category>;
+  errors: Array<Scalars['String']>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
+  categoryCreate: CategoryCreatePayload;
   createAccount: Account;
   createBank: Bank;
-  createCategory: Category;
   createTag: Tag;
   createTransaction: Transaction;
+};
+
+
+export type MutationCategoryCreateArgs = {
+  value: Scalars['String'];
 };
 
 
@@ -57,11 +68,6 @@ export type MutationCreateAccountArgs = {
 
 export type MutationCreateBankArgs = {
   name: Scalars['String'];
-};
-
-
-export type MutationCreateCategoryArgs = {
-  value: Scalars['String'];
 };
 
 
@@ -80,12 +86,18 @@ export type MutationCreateTransactionArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  account?: Maybe<Account>;
   accounts: Array<Account>;
   bank?: Maybe<Bank>;
   banks: Array<Bank>;
-  categories: Array<Maybe<Category>>;
+  categories: Array<Category>;
   tags?: Maybe<Array<Maybe<Tag>>>;
   transactions: Array<Transaction>;
+};
+
+
+export type QueryAccountArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -96,6 +108,13 @@ export type QueryAccountsArgs = {
 
 export type QueryBankArgs = {
   name: Scalars['String'];
+};
+
+
+export type QueryTransactionsArgs = {
+  accountId?: InputMaybe<Scalars['Int']>;
+  categoryId?: InputMaybe<Scalars['Int']>;
+  type?: InputMaybe<TransactionType>;
 };
 
 export type Tag = {
@@ -129,6 +148,13 @@ export type User = {
   total_amount?: Maybe<Scalars['Float']>;
 };
 
+export type GetAccountQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type GetAccountQuery = { __typename?: 'Query', account?: { __typename?: 'Account', name: string, total_amount: number, bank: { __typename?: 'Bank', name: string } } | null };
+
 export type GetAccountsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -149,7 +175,7 @@ export type GetBanksQuery = { __typename?: 'Query', banks: Array<{ __typename?: 
 export type GetCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetCategoriesQuery = { __typename?: 'Query', categories: Array<{ __typename?: 'Category', value: string } | null> };
+export type GetCategoriesQuery = { __typename?: 'Query', categories: Array<{ __typename?: 'Category', value: string }> };
 
 export type CreateAccountMutationVariables = Exact<{
   name: Scalars['String'];
@@ -177,6 +203,45 @@ export type CreateTransactionMutationVariables = Exact<{
 export type CreateTransactionMutation = { __typename?: 'Mutation', createTransaction: { __typename?: 'Transaction', amount: number, date?: any | null, description?: string | null, id?: number | null, type?: TransactionType | null } };
 
 
+export const GetAccountDocument = gql`
+    query getAccount($id: Int!) {
+  account(id: $id) {
+    name
+    total_amount
+    bank {
+      name
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetAccountQuery__
+ *
+ * To run a query within a React component, call `useGetAccountQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAccountQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAccountQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetAccountQuery(baseOptions: Apollo.QueryHookOptions<GetAccountQuery, GetAccountQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAccountQuery, GetAccountQueryVariables>(GetAccountDocument, options);
+      }
+export function useGetAccountLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAccountQuery, GetAccountQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAccountQuery, GetAccountQueryVariables>(GetAccountDocument, options);
+        }
+export type GetAccountQueryHookResult = ReturnType<typeof useGetAccountQuery>;
+export type GetAccountLazyQueryHookResult = ReturnType<typeof useGetAccountLazyQuery>;
+export type GetAccountQueryResult = Apollo.QueryResult<GetAccountQuery, GetAccountQueryVariables>;
 export const GetAccountsDocument = gql`
     query getAccounts {
   accounts {

@@ -1,0 +1,9 @@
+query getAccount($id: Int!){
+    account(id: $id) {
+        name
+        total_amount
+        bank {
+           name
+        }
+    }
+}
