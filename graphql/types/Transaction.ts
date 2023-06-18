@@ -16,12 +16,12 @@ import { Account } from "./Account";
 export const Transaction = objectType({
   name: "Transaction",
   definition(t) {
-    t.int("id");
+    t.nonNull.int("id");
     t.string("description");
     t.string("category");
     t.nonNull.float("amount");
-    t.field("type", { type: TransactionType });
-    t.date("date");
+    t.nonNull.field("type", { type: TransactionType });
+    t.nonNull.date("date");
     t.nonNull.field("account", {
       type: Account,
       async resolve(_parent, _args, ctx: Context) {
@@ -30,7 +30,7 @@ export const Transaction = objectType({
           .account();
       },
     });
-    t.nonNull.list.field("tags", {
+    t.nonNull.list.nonNull.field("tags", {
       type: Tag,
       async resolve(_parent, _args, ctx: Context) {
         return await ctx.prisma.transaction

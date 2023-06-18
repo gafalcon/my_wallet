@@ -16,6 +16,7 @@
     "@types/cors": "^2.8.13",
     "apollo-server-micro": "^3.10.2",
     "cors": "^2.8.5",
+    "dayjs": "^1.11.8",
     "formik": "^2.2.9",
     "graphql": "^16.6.0",
     "micro": "^9.4.1",

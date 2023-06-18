@@ -129,11 +129,11 @@ export type Transaction = {
   account: Account;
   amount: Scalars['Float'];
   category?: Maybe<Scalars['String']>;
-  date?: Maybe<Scalars['Date']>;
+  date: Scalars['Date'];
   description?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['Int']>;
-  tags: Array<Maybe<Tag>>;
-  type?: Maybe<TransactionType>;
+  id: Scalars['Int'];
+  tags: Array<Tag>;
+  type: TransactionType;
   user: User;
 };
 
@@ -154,7 +154,7 @@ export type GetAccountQueryVariables = Exact<{
 }>;
 
 
-export type GetAccountQuery = { __typename?: 'Query', account?: { __typename?: 'Account', name: string, total_amount: number, bank: { __typename?: 'Bank', name: string } } | null };
+export type GetAccountQuery = { __typename?: 'Query', account?: { __typename?: 'Account', name: string, total_amount: number, bank: { __typename?: 'Bank', name: string }, transactions: Array<{ __typename?: 'Transaction', amount: number, date: any, type: TransactionType }> } | null };
 
 export type GetAccountsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -201,7 +201,7 @@ export type CreateTransactionMutationVariables = Exact<{
 }>;
 
 
-export type CreateTransactionMutation = { __typename?: 'Mutation', createTransaction: { __typename?: 'Transaction', amount: number, date?: any | null, description?: string | null, id?: number | null, type?: TransactionType | null } };
+export type CreateTransactionMutation = { __typename?: 'Mutation', createTransaction: { __typename?: 'Transaction', amount: number, date: any, description?: string | null, id: number, type: TransactionType } };
 
 
 export const GetAccountDocument = gql`
@@ -211,6 +211,11 @@ export const GetAccountDocument = gql`
     total_amount
     bank {
       name
+    }
+    transactions {
+      amount
+      date
+      type
     }
   }
 }

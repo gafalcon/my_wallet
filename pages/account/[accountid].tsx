@@ -1,5 +1,6 @@
 import { NextPage } from "next";
 import { useRouter } from "next/router";
+import { TransactionsTable } from "../../components/transaction/TransactionsTable";
 import { useGetAccountQuery } from "../../graphql/client-types";
 
 const AccountPage: NextPage = () => {
@@ -12,6 +13,7 @@ const AccountPage: NextPage = () => {
     return <h1>Loading...</h1>;
   }
   const { account } = data;
+
   return (
     <>
       <h1 className="text-3xl mb-4 text-primary-content">Account Page</h1>
@@ -26,6 +28,10 @@ const AccountPage: NextPage = () => {
             </div>
           </div>
         </div>
+      </section>
+      <section className="transactions mt-4">
+        <h2 className="text-2xl">Transactions</h2>
+        <TransactionsTable transactions={account.transactions} />
       </section>
     </>
   );

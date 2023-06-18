@@ -56,11 +56,11 @@ type Transaction {
   account: Account!
   amount: Float!
   category: String
-  date: Date
+  date: Date!
   description: String
-  id: Int
-  tags: [Tag]!
-  type: TransactionType
+  id: Int!
+  tags: [Tag!]!
+  type: TransactionType!
   user: User!
 }
 
