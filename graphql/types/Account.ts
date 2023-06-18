@@ -5,11 +5,11 @@ import {
   stringArg,
   intArg,
   floatArg,
-  idArg,
 } from "nexus";
 import { Bank } from "./Bank";
 import { Context } from "../context";
 import { User } from "./User";
+import { Transaction } from "./Transaction";
 
 export const Account = objectType({
   name: "Account",
@@ -31,12 +31,20 @@ export const Account = objectType({
     });
     t.nonNull.field("user", {
       type: User,
-      async resolve(_parent, _args, ctx: Context) {
+      async resolve(parent, _args, ctx: Context) {
         return await ctx.prisma.account
           .findUnique({
-            where: { id: _parent.id! },
+            where: { id: parent.id! },
           })
           .user();
+      },
+    });
+    t.nonNull.list.nonNull.field("transactions", {
+      type: Transaction,
+      async resolve(parent, _args, ctx: Context) {
+        return await ctx.prisma.account
+          .findUnique({ where: { id: parent.id! } })
+          .transactions();
       },
     });
   },

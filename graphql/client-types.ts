@@ -23,6 +23,7 @@ export type Account = {
   id?: Maybe<Scalars['Int']>;
   name: Scalars['String'];
   total_amount: Scalars['Float'];
+  transactions: Array<Transaction>;
   user: User;
 };
 
