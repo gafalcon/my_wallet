@@ -28,10 +28,6 @@ type CategoryCreatePayload {
 """Date custom scalar type"""
 scalar Date
 
-type Errors {
-  message: [String!]!
-}
-
 type Mutation {
   categoryCreate(value: String!): CategoryCreatePayload!
   createAccount(bankId: Int!, name: String!, total_amount: Float): Account!

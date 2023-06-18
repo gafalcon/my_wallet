@@ -1,3 +1,4 @@
+import { Prisma } from "@prisma/client";
 import { objectType, extendType, stringArg, nonNull } from "nexus";
 import { Context } from "../context";
 
@@ -48,6 +49,10 @@ export const CategoryCreateMutation = extendType({
           return { Category, errors: [] };
         } catch (err) {
           console.warn(err);
+          if (err instanceof Prisma.PrismaClientKnownRequestError) {
+            if (err.code == "P2002")
+              return { errors: ["Category with same value already exists"] };
+          }
           return { errors: [(err as Error).message] };
         }
       },
